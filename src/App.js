@@ -1,24 +1,62 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import Buttons from './components/Buttons';
+import ItemList from './components/ItemList';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
 
 function App() {
+  const [cartItems, setCartItems] = useState({});
+
+  const handleAddProduct = (productName) => {
+    setCartItems((prevCartItems) => {
+      if (prevCartItems[productName]) {
+        return {
+          ...prevCartItems,
+          [productName]: prevCartItems[productName] + 1,
+        }
+      } else {
+        return {
+          ...prevCartItems,
+          [productName]: 1,
+        }
+      }
+    })
+  }
+
+
+  const handleClearCart = () => {
+    setCartItems({});
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <div className='app-container'>
+
+        <div className='content-container'>
+          <ItemList cartItems={cartItems} />
+
+          <button className='clean-cart-button' onClick={handleClearCart}>
+            Clear
+          </button>
+
+        </div>
+
+        <div className='product-buttons'>
+          <Buttons productName="Hamburger" addProduct={handleAddProduct} />
+          <Buttons productName="Cheeseburger" addProduct={handleAddProduct} />
+          <Buttons productName="Fries" addProduct={handleAddProduct} />
+          <Buttons productName="Coffee" addProduct={handleAddProduct} />
+          <Buttons productName="Tea" addProduct={handleAddProduct} />
+          <Buttons productName="Cola" addProduct={handleAddProduct} />
+        </div>
+
+      </div>
+      
+      <Footer />
+    </>
   );
 }
 
