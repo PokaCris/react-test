@@ -1,8 +1,10 @@
+import './style.css'
+
 function Header() {
     return (
         <div className="header">
-            <div></div>
-            <div></div>
+            <div>logo</div>
+            <input type='search'></input>
         </div>
     )
 }

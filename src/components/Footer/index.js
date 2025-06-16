@@ -1,6 +1,10 @@
+import './style.css'
+
 function Footer() {
     return(
-        <h1>footer</h1>
+       <div className="footer">
+            Some text © 2025
+        </div>
     )
 }
 

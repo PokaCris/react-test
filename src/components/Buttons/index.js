@@ -1,3 +1,4 @@
+import './style.css'
 
 const Buttons = ({productName, addProduct}) => {
 

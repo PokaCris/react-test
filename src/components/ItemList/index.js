@@ -2,7 +2,7 @@ function ItemList({ cartItems }) {
     const isEmpty = Object.keys(cartItems).length === 0;
 
     return (
-        <div className="product-list">
+        <div>
             {isEmpty ? (
                 <p>Empty list</p>
             ) : (
