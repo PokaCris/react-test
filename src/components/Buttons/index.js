@@ -1,11 +1,11 @@
-import './style.css'
+import './style.css';
 
-const Buttons = ({productName, addProduct}) => {
-
+const Buttons = ({ productName, addProduct, children }) => {
     return (
-        <button className="product-button" onClick={() => addProduct(productName)}>{productName}</button>
-    )
-
-}
+        <button className="product-button" onClick={() => addProduct(productName)}>
+            {children} 
+        </button>
+    );
+};
 
 export default Buttons;
