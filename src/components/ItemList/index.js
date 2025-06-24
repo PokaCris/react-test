@@ -1,7 +1,9 @@
+import { connect } from 'react-redux';
+import { removeItem } from '../../store/actions';
 import './style.css';
 
-function ItemList({ cartItems, removeProduct, totalPrice }) {
-    const isEmpty = Object.keys(cartItems).length === 0;
+function ItemList({ cartItems, removeItem, totalPrice }) {
+    const isEmpty = cartItems.length === 0;
 
     return (
         <div>
@@ -12,14 +14,14 @@ function ItemList({ cartItems, removeProduct, totalPrice }) {
                 ) : (
                     <>
                         <ul>
-                            {Object.entries(cartItems).map(([productName, item]) => (
-                                <li key={productName} className="cart-item">
-                                    <span>{productName} - {item.quantity} x ${item.price.toFixed(2)} = ${(item.quantity * item.price).toFixed(2)}</span>
-                                    <button className="remove-button" onClick={() => removeProduct(productName)}>X</button>
+                            {cartItems.map((item) => (
+                                <li key={item.productName} className="cart-item">
+                                    <span>{item.productName} - {item.quantity} x ${item.price.toFixed(2)} = ${(item.quantity * item.price).toFixed(2)}</span>
+                                    <button className="remove-button" onClick={() => removeItem(item.productName)}>X</button>
                                 </li>
                             ))}
                         </ul>
-                        <p className='total-price'>Total price: ${totalPrice}</p>
+                        <p className='total-price'>Total price: ${totalPrice.toFixed(2)}</p>
                     </>
                 )}
             </div>
@@ -27,4 +29,13 @@ function ItemList({ cartItems, removeProduct, totalPrice }) {
     );
 }
 
-export default ItemList;
+const mapStateToProps = (state) => ({
+    cartItems: state.items,
+    totalPrice: state.total,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    removeItem: (productName) => dispatch(removeItem(productName)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemList);

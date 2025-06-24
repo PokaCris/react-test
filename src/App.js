@@ -1,12 +1,13 @@
-import hamburger from './assets/bg.png'
-import cheeseburger from './assets/bg2.png'
-import fries from './assets/potato.png'
-import coffe from './assets/coffe.png'
-import tea from './assets/tea.png'
-import cola from './assets/cola.png'
+import hamburger from './assets/bg.png';
+import cheeseburger from './assets/bg2.png';
+import fries from './assets/potato.png';
+import coffe from './assets/coffe.png';
+import tea from './assets/tea.png';
+import cola from './assets/cola.png';
 import './App.css';
 
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addItem } from './store/actions';
 import Buttons from './components/Buttons';
 import ItemList from './components/ItemList';
 import Header from './components/Header';
@@ -19,47 +20,13 @@ const ProductItems = {
   "Coffee": { price: 3.5 },
   "Tea": { price: 1.5 },
   "Cola": { price: 2.5 },
-}
+};
 
 function App() {
-  const [cartItems, setCartItems] = useState({});
+  const dispatch = useDispatch();
 
   const handleAddProduct = (productName) => {
-    setCartItems((prevCartItems) => {
-      if (prevCartItems[productName]) {
-        return {
-          ...prevCartItems,
-          [productName]: {
-            ...prevCartItems[productName],
-            quantity: prevCartItems[productName].quantity + 1,
-          },
-        };
-      } else {
-        return {
-          ...prevCartItems,
-          [productName]: {
-            quantity: 1,
-            price: ProductItems[productName]?.price || 0,
-          },
-        };
-      }
-    });
-  };
-
-  const handleRemoveProduct = (productName) => {
-    setCartItems((prevCartItems) => {
-      const newCartItems = { ...prevCartItems };
-      delete newCartItems[productName];
-      return newCartItems;
-    });
-  };
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    for (const productName in cartItems) {
-      total += cartItems[productName].quantity * cartItems[productName].price;
-    }
-    return total.toFixed(2);
+    dispatch(addItem(productName, ProductItems[productName]?.price || 0));
   };
 
   return (
@@ -67,8 +34,7 @@ function App() {
       <Header />
       <div className='container'>
         <div className='content'>
-          <ItemList cartItems={cartItems} removeProduct={handleRemoveProduct} totalPrice={calculateTotalPrice()} />
-
+          <ItemList />
         </div>
         <div className='product-buttons'>
           <h2>Add items</h2>
